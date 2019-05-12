@@ -168,8 +168,9 @@ toString:
         mov     rbp, rsp
         sub     rsp, 32
         mov     qword [rbp-18H], rdi
-        mov     edi, 32
-        call    malloc
+        mov     esi, 8
+        mov     edi, 4
+        call    calloc
         mov     qword [rbp-8H], rax
         mov     rax, qword [rbp-8H]
         lea     rcx, [rax+8H]
@@ -260,9 +261,9 @@ mallocx8:
         mov     qword [rbp-18H], rdi
         mov     rax, qword [rbp-18H]
         add     rax, 2
-        shl     rax, 3
+        mov     esi, 8
         mov     rdi, rax
-        call    malloc
+        call    calloc
         mov     qword [rbp-8H], rax
         mov     rax, qword [rbp-18H]
         lea     rdx, [rax-1H]
@@ -315,9 +316,11 @@ str_add:
         add     rax, rdx
         mov     qword [rbp-10H], rax
         mov     rax, qword [rbp-10H]
-        add     rax, 16
+        sar     rax, 3
+        add     rax, 3
+        mov     esi, 8
         mov     rdi, rax
-        call    malloc
+        call    calloc
         mov     qword [rbp-8H], rax
         mov     rax, qword [rbp-8H]
         mov     rdx, qword [rbp-10H]
@@ -346,16 +349,6 @@ str_add:
         mov     rsi, rcx
         mov     rdi, rax
         call    memcpy
-        mov     rax, qword [rbp-8H]
-        lea     rdx, [rax+8H]
-        mov     rax, qword [rbp-18H]
-        mov     rax, qword [rax]
-        mov     rcx, rax
-        mov     rax, qword [rbp-20H]
-        mov     rax, qword [rax]
-        add     rax, rcx
-        add     rax, rdx
-        mov     byte [rax], 0
         mov     rax, qword [rbp-8H]
         leave
         ret
@@ -502,9 +495,11 @@ L_012:  mov     rax, qword [rel n]
         call    strlen
         mov     qword [rbp-10H], rax
         mov     rax, qword [rbp-10H]
-        add     rax, 16
+        sar     rax, 3
+        add     rax, 3
+        mov     esi, 8
         mov     rdi, rax
-        call    malloc
+        call    calloc
         mov     qword [rbp-8H], rax
         mov     rax, qword [rbp-8H]
         mov     rdx, qword [rbp-10H]
@@ -516,11 +511,6 @@ L_012:  mov     rax, qword [rel n]
         lea     rsi, [rel __buffer_cache__]
         mov     rdi, rcx
         call    memcpy
-        mov     rax, qword [rbp-8H]
-        lea     rdx, [rax+8H]
-        mov     rax, qword [rbp-10H]
-        add     rax, rdx
-        mov     byte [rax], 0
         mov     rax, qword [rbp-8H]
         leave
         ret
@@ -598,9 +588,11 @@ substring:
         add     rax, 1
         mov     qword [rbp-10H], rax
         mov     rax, qword [rbp-10H]
-        add     rax, 16
+        sar     rax, 3
+        add     rax, 3
+        mov     esi, 8
         mov     rdi, rax
-        call    malloc
+        call    calloc
         mov     qword [rbp-8H], rax
         mov     rax, qword [rbp-8H]
         mov     rdx, qword [rbp-10H]
@@ -615,11 +607,6 @@ substring:
         mov     rdx, rax
         mov     rdi, rcx
         call    memcpy
-        mov     rax, qword [rbp-8H]
-        lea     rdx, [rax+8H]
-        mov     rax, qword [rbp-10H]
-        add     rax, rdx
-        mov     byte [rax], 0
         mov     rax, qword [rbp-8H]
         leave
         ret
